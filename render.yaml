@@ -1,7 +1,7 @@
 services:
   - type: web
     name: law-simulation-backend
-    env: python
+    runtime: python
     rootDir: "law de/backend"
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -13,12 +13,12 @@ services:
       - key: GEMINI_API_KEY
         sync: false
     plan: free
-
-staticSites:
-  - name: law-simulation-frontend
+  - type: web
+    runtime: static
+    name: law-simulation-frontend
     rootDir: "law de/frontend"
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
         fromService:
