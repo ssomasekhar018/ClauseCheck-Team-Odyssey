@@ -116,7 +116,7 @@ All three applications are connected via a unified navigation bar, allowing seam
 - **AI:** Google Gemini, OpenAI GPT-4 (via OpenRouter)
 
 **Ports:**
-- Frontend: `http://localhost:5173`
+- Frontend: `http://localhost:5174`
 - Backend: `http://localhost:8101`
 
 ---
@@ -305,7 +305,7 @@ Use the provided batch script to start all servers simultaneously:
 
 # This will open separate PowerShell windows for each server:
 # - Landing Page (http://localhost:8080)
-# - Courtroom Simulation (http://localhost:5173)
+# - Courtroom Simulation (http://localhost:5174)
 # - Case File Library (http://localhost:3000)
 # - AI Contract Analysis (http://localhost:5175)
 ```
@@ -324,7 +324,7 @@ python -m app.main
 # Terminal 2: Frontend
 cd "law de/frontend"
 npm run dev
-# Frontend runs on http://localhost:5173
+# Frontend runs on http://localhost:5174
 ```
 
 #### Case File Library
@@ -370,7 +370,7 @@ python -m http.server 8080
 | Service | Port | URL |
 |---------|------|-----|
 | Landing Page | 8080 | http://localhost:8080 |
-| Courtroom Simulation (Frontend) | 5173 | http://localhost:5173 |
+| Courtroom Simulation (Frontend) | 5174 | http://localhost:5173 |
 | Courtroom Simulation (Backend) | 8101 | http://localhost:8101 |
 | Case File Library (Frontend) | 3000 | http://localhost:3000 |
 | Case File Library (Backend) | 5000 | http://localhost:5000 |
@@ -585,19 +585,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-## 📞 Support
-
-For issues, questions, or contributions:
-- **GitHub Issues:** [Create an issue](https://github.com/seeramyash/ClauseCheck/issues)
-- **Repository:** [https://github.com/seeramyash/ClauseCheck](https://github.com/seeramyash/ClauseCheck)
-
----
 
 ## 🎯 Quick Start Summary
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/seeramyash/ClauseCheck.git
+git clone https://github.com/ssomasekhar018/ClauseCheck.git
 cd ClauseCheck
 
 # 2. Install dependencies (see Installation section above)
@@ -609,7 +602,7 @@ cd ClauseCheck
 
 # 5. Open browser
 # - Home: http://localhost:8080
-# - Courtroom Simulation: http://localhost:5173
+# - Courtroom Simulation: http://localhost:5174
 # - Case File Library: http://localhost:3000
 # - AI Contract Analysis: http://localhost:5175
 ```
