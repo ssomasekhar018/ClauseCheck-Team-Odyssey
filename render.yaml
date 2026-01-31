@@ -1,8 +1,4 @@
 services:
-  # --------------------------------------------------------------------------------
-  # COURTROOM SIMULATION (Law De)
-  # --------------------------------------------------------------------------------
-  # Backend Service (FastAPI)
   - type: web
     name: law-simulation-backend
     env: python
@@ -18,12 +14,11 @@ services:
         sync: false
     plan: free
 
-  # Frontend Service (React/Vite)
-  - type: static_site
-    name: law-simulation-frontend
+staticSites:
+  - name: law-simulation-frontend
     rootDir: "law de/frontend"
     buildCommand: npm install && npm run build
-    publishDir: dist
+    publishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
         fromService:
