@@ -19,9 +19,8 @@ services:
     plan: free
 
   # Frontend Service (React/Vite)
-  - type: static
+  - type: static_site
     name: law-simulation-frontend
-    env: static
     rootDir: "law de/frontend"
     buildCommand: npm install && npm run build
     publishDir: dist
