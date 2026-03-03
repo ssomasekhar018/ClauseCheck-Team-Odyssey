@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './navbar.css';
-
-
 @keyframes float {
   0% {
     transform: translateY(0px) translateX(0px);
