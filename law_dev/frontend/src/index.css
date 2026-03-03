@@ -211,21 +211,8 @@
   }
 
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-      repeating-linear-gradient(90deg,
-        rgba(255, 255, 255, 0.03) 0px,
-        rgba(255, 255, 255, 0.03) 1px,
-        transparent 1px,
-        transparent 30px);
-    pointer-events: none;
-  }
+  /* No stripe overlay — clean dark background matching home page */
+
 
   /* Form Card Styling */
   .form-card {

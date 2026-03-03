@@ -61,7 +61,7 @@ const App: React.FC = () => {
       }
 
       const data = (await res.json()) as AnalysisResult;
-      
+
       // Normalize data
       const normalizedData: AnalysisResult = {
         document: data.document || { source_name: 'Unknown', content: '' },
@@ -72,7 +72,7 @@ const App: React.FC = () => {
         llm_summary: data.llm_summary || null,
         llm_risk_overview: data.llm_risk_overview || null,
       };
-      
+
       setAnalysis(normalizedData);
     } catch (err: any) {
       setError(err.message ?? 'Something went wrong while analyzing the contract.');
@@ -93,7 +93,7 @@ const App: React.FC = () => {
     const lvl = getRiskLevel(r.level).toLowerCase();
     return lvl.includes('high') || lvl.includes('critical');
   }).length || 0;
-  
+
   // Mock score based on risks (start at 100, deduct for risks)
   const riskScore = Math.max(0, 100 - (riskCount * 5) - (highRiskCount * 10));
 
@@ -103,18 +103,12 @@ const App: React.FC = () => {
       <div className="particles" />
       <Navbar />
 
-      <PageContainer 
-        title="AI Contract Intelligence" 
+      <PageContainer
+        title="AI Contract Intelligence"
         description="Real-time clause risk detection powered by NLP models"
-        action={
-          <div className="flex items-center gap-2 bg-slate-800/50 px-4 py-2 rounded-full border border-white/5">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"/>
-            <span className="text-green-400 text-sm font-medium">AI Engine Active</span>
-          </div>
-        }
       >
         <div className="grid grid-cols-12 gap-8">
-          
+
           {/* --- Left Panel: Input --- */}
           <div className="col-span-12 lg:col-span-5 space-y-6">
             <motion.div
@@ -132,7 +126,7 @@ const App: React.FC = () => {
                 </h2>
 
                 <form onSubmit={handleAnalyze} className="space-y-6">
-                  
+
                   {/* File Upload Area */}
                   <div className="relative group">
                     <input
@@ -208,7 +202,7 @@ const App: React.FC = () => {
           {/* --- Right Panel: Results --- */}
           <div className="col-span-12 lg:col-span-7 space-y-6">
             {!analysis && !loading && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 className="h-full flex flex-col items-center justify-center text-slate-500 space-y-4 min-h-[500px]"
               >
@@ -233,11 +227,11 @@ const App: React.FC = () => {
                 <GlassCard className="p-8">
                   <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                     <div className="flex-1 w-full">
-                       <h3 className="text-lg font-semibold text-white mb-4">Risk Overview</h3>
-                       <div className="grid grid-cols-2 gap-4">
-                          <StatCard title="Risks Found" value={riskCount} />
-                          <StatCard title="Critical Flags" value={highRiskCount} />
-                       </div>
+                      <h3 className="text-lg font-semibold text-white mb-4">Risk Overview</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <StatCard title="Risks Found" value={riskCount} />
+                        <StatCard title="Critical Flags" value={highRiskCount} />
+                      </div>
                     </div>
                     <div className="flex-shrink-0">
                       <RiskGauge score={riskScore} />
@@ -257,9 +251,9 @@ const App: React.FC = () => {
                     >
                       {tab}
                       {activeTab === tab && (
-                        <motion.div 
+                        <motion.div
                           layoutId="activeTab"
-                          className="absolute bottom-[-5px] left-0 w-full h-0.5 bg-primary" 
+                          className="absolute bottom-[-5px] left-0 w-full h-0.5 bg-primary"
                         />
                       )}
                     </button>
@@ -269,32 +263,32 @@ const App: React.FC = () => {
                 {/* Tab Content */}
                 <div className="min-h-[300px]">
                   {activeTab === 'summary' && (
-                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <GlassCard>
-                          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                            <BrainCircuit className="text-secondary" /> 
-                            {analysis.llm_summary ? "AI Executive Summary" : "Heuristic Summary"}
-                          </h3>
-                          
-                          {analysis.llm_summary ? (
-                            <div className="prose prose-invert prose-sm max-w-none text-slate-300 leading-relaxed">
-                              {analysis.llm_summary.split('\n').map((line, i) => (
-                                <p key={i} className="mb-2">{line}</p>
-                              ))}
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                      <GlassCard>
+                        <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                          <BrainCircuit className="text-secondary" />
+                          {analysis.llm_summary ? "AI Executive Summary" : "Heuristic Summary"}
+                        </h3>
+
+                        {analysis.llm_summary ? (
+                          <div className="prose prose-invert prose-sm max-w-none text-slate-300 leading-relaxed">
+                            {analysis.llm_summary.split('\n').map((line, i) => (
+                              <p key={i} className="mb-2">{line}</p>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-200 text-sm flex items-center gap-2">
+                              <AlertTriangle size={16} />
+                              AI Summary unavailable. Showing rule-based analysis.
                             </div>
-                          ) : (
-                            <div className="space-y-4">
-                              <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-200 text-sm flex items-center gap-2">
-                                <AlertTriangle size={16} />
-                                AI Summary unavailable. Showing rule-based analysis.
-                              </div>
-                              <p className="text-slate-300 leading-relaxed whitespace-pre-wrap">
-                                {analysis.heuristic_summary || "No summary available."}
-                              </p>
-                            </div>
-                          )}
-                        </GlassCard>
-                     </motion.div>
+                            <p className="text-slate-300 leading-relaxed whitespace-pre-wrap">
+                              {analysis.heuristic_summary || "No summary available."}
+                            </p>
+                          </div>
+                        )}
+                      </GlassCard>
+                    </motion.div>
                   )}
 
                   {activeTab === 'analytics' && (
@@ -317,7 +311,7 @@ const App: React.FC = () => {
                                   <span className="text-white font-medium">{item.count}</span>
                                 </div>
                                 <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                                  <motion.div 
+                                  <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: `${(item.count / (riskCount || 1)) * 100}%` }}
                                     className={`h-full ${item.color}`}
@@ -339,7 +333,7 @@ const App: React.FC = () => {
                               acc[typeName] = (acc[typeName] || 0) + 1;
                               return acc;
                             }, {} as Record<string, number>))
-                              .sort(([,a], [,b]) => b - a)
+                              .sort(([, a], [, b]) => b - a)
                               .slice(0, 5)
                               .map(([type, count], idx) => (
                                 <div key={type} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition-colors">
@@ -352,32 +346,32 @@ const App: React.FC = () => {
                                   <span className="text-white font-bold">{count}</span>
                                 </div>
                               ))}
-                              {analysis.clauses.length === 0 && (
-                                <p className="text-slate-500 text-center py-4">No clauses identified.</p>
-                              )}
+                            {analysis.clauses.length === 0 && (
+                              <p className="text-slate-500 text-center py-4">No clauses identified.</p>
+                            )}
                           </div>
                         </GlassCard>
                       </div>
 
                       {/* Health Score */}
                       <GlassCard className="flex items-center justify-between p-8">
-                         <div>
-                           <h3 className="text-xl font-bold text-white mb-1">Contract Health Score</h3>
-                           <p className="text-slate-400">Based on risk density and critical flags</p>
-                         </div>
-                         <div className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-600">
-                           {riskScore}/100
-                         </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-white mb-1">Contract Health Score</h3>
+                          <p className="text-slate-400">Based on risk density and critical flags</p>
+                        </div>
+                        <div className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-600">
+                          {riskScore}/100
+                        </div>
                       </GlassCard>
                     </motion.div>
                   )}
 
                   {activeTab === 'risks' && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                       <GlassCard>
+                      <GlassCard>
                         <div className="flex justify-between items-center mb-4">
-                           <h3 className="text-lg font-semibold text-white">Detected Risks</h3>
-                           <span className="text-xs text-slate-400">{riskCount} issues found</span>
+                          <h3 className="text-lg font-semibold text-white">Detected Risks</h3>
+                          <span className="text-xs text-slate-400">{riskCount} issues found</span>
                         </div>
                         <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                           {analysis.risks.length === 0 ? (
@@ -399,38 +393,38 @@ const App: React.FC = () => {
                   )}
 
                   {activeTab === 'breakdown' && (
-                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <GlassCard>
-                          <h3 className="text-lg font-semibold text-white mb-4">Clause Breakdown</h3>
-                          <div className="space-y-4">
-                             {analysis.clauses.slice(0, 5).map((clause, idx) => (
-                               <div key={idx} className="p-3 bg-slate-800/30 rounded-lg border border-white/5">
-                                  <div className="text-xs text-primary mb-1 uppercase tracking-wider font-bold">
-                                    {typeof clause.type === 'string' ? clause.type : clause.type.name}
-                                  </div>
-                                  <p className="text-sm text-slate-300 line-clamp-2">{clause.text}</p>
-                               </div>
-                             ))}
-                             {analysis.clauses.length > 5 && (
-                               <p className="text-center text-slate-500 text-sm mt-2">
-                                 + {analysis.clauses.length - 5} more clauses analyzed
-                               </p>
-                             )}
-                          </div>
-                        </GlassCard>
-                     </motion.div>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                      <GlassCard>
+                        <h3 className="text-lg font-semibold text-white mb-4">Clause Breakdown</h3>
+                        <div className="space-y-4">
+                          {analysis.clauses.slice(0, 5).map((clause, idx) => (
+                            <div key={idx} className="p-3 bg-slate-800/30 rounded-lg border border-white/5">
+                              <div className="text-xs text-primary mb-1 uppercase tracking-wider font-bold">
+                                {typeof clause.type === 'string' ? clause.type : clause.type.name}
+                              </div>
+                              <p className="text-sm text-slate-300 line-clamp-2">{clause.text}</p>
+                            </div>
+                          ))}
+                          {analysis.clauses.length > 5 && (
+                            <p className="text-center text-slate-500 text-sm mt-2">
+                              + {analysis.clauses.length - 5} more clauses analyzed
+                            </p>
+                          )}
+                        </div>
+                      </GlassCard>
+                    </motion.div>
                   )}
-                  
+
                   {activeTab === 'analytics' && (
-                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <GlassCard className="flex flex-col items-center justify-center py-12 text-center">
-                           <BarChart2 size={48} className="text-slate-600 mb-4" />
-                           <h3 className="text-xl font-bold text-white mb-2">Deep Analytics</h3>
-                           <p className="text-slate-400 max-w-sm">
-                             Detailed contract metrics, readability scores, and jurisdiction heatmap coming soon in Pro version.
-                           </p>
-                        </GlassCard>
-                     </motion.div>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                      <GlassCard className="flex flex-col items-center justify-center py-12 text-center">
+                        <BarChart2 size={48} className="text-slate-600 mb-4" />
+                        <h3 className="text-xl font-bold text-white mb-2">Deep Analytics</h3>
+                        <p className="text-slate-400 max-w-sm">
+                          Detailed contract metrics, readability scores, and jurisdiction heatmap coming soon in Pro version.
+                        </p>
+                      </GlassCard>
+                    </motion.div>
                   )}
                 </div>
 

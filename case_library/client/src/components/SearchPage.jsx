@@ -11,7 +11,7 @@ const SearchPage = ({ onSearch, onNavigateToUpload }) => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    
+
     if (!query.trim()) {
       setError('Please enter a search query');
       return;
@@ -29,7 +29,7 @@ const SearchPage = ({ onSearch, onNavigateToUpload }) => {
     } catch (err) {
       console.error('Search error:', err);
       setError(
-        err.response?.data?.error || 
+        err.response?.data?.error ||
         'Failed to search cases. Please check your API configuration.'
       );
     } finally {
@@ -47,10 +47,10 @@ const SearchPage = ({ onSearch, onNavigateToUpload }) => {
       >
         <div className="text-center mb-12">
           <div className="w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow relative">
-             <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
-             <Library size={48} className="text-white relative z-10" />
+            <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+            <Library size={48} className="text-white relative z-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ textShadow: '0 0 40px rgba(124,58,237,0.3), 0 2px 8px rgba(0,0,0,0.4)' }}>
             Legal Intelligence Database
           </h1>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
@@ -73,16 +73,16 @@ const SearchPage = ({ onSearch, onNavigateToUpload }) => {
 
             {/* Filter Chips */}
             <div className="flex flex-wrap gap-2 justify-center">
-               {['Supreme Court', 'High Court', 'Criminal', 'Civil', 'Recent Judgments'].map((filter) => (
-                 <button 
-                   key={filter}
-                   type="button"
-                   onClick={() => setQuery(filter)}
-                   className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-400 text-sm hover:bg-white/10 hover:text-white transition-colors"
-                 >
-                   {filter}
-                 </button>
-               ))}
+              {['Supreme Court', 'High Court', 'Criminal', 'Civil', 'Recent Judgments'].map((filter) => (
+                <button
+                  key={filter}
+                  type="button"
+                  onClick={() => setQuery(filter)}
+                  className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-400 text-sm hover:bg-white/10 hover:text-white transition-colors"
+                >
+                  {filter}
+                </button>
+              ))}
             </div>
 
             <div className="flex gap-4">
@@ -94,7 +94,7 @@ const SearchPage = ({ onSearch, onNavigateToUpload }) => {
                 {loading ? <Loader2 className="animate-spin" /> : <Search size={20} />}
                 {loading ? 'Searching Database...' : 'Search Cases'}
               </button>
-              
+
               <button
                 type="button"
                 onClick={onNavigateToUpload}
@@ -107,8 +107,8 @@ const SearchPage = ({ onSearch, onNavigateToUpload }) => {
           </form>
 
           {error && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0 }} 
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-3 text-red-400"
             >
@@ -119,20 +119,20 @@ const SearchPage = ({ onSearch, onNavigateToUpload }) => {
         </GlassCard>
 
         <div className="mt-8 flex justify-center gap-8 text-slate-500 text-sm">
-           <div className="flex flex-col items-center">
-              <span className="font-bold text-white text-lg">10,842</span>
-              <span>Cases Indexed</span>
-           </div>
-           <div className="w-px bg-slate-800 h-12"></div>
-           <div className="flex flex-col items-center">
-              <span className="font-bold text-green-400 text-lg">98%</span>
-              <span>Uptime</span>
-           </div>
-           <div className="w-px bg-slate-800 h-12"></div>
-           <div className="flex flex-col items-center">
-              <span className="font-bold text-secondary text-lg">Active</span>
-              <span>AI Engine</span>
-           </div>
+          <div className="flex flex-col items-center">
+            <span className="font-bold text-white text-lg">10,842</span>
+            <span>Cases Indexed</span>
+          </div>
+          <div className="w-px bg-slate-800 h-12"></div>
+          <div className="flex flex-col items-center">
+            <span className="font-bold text-green-400 text-lg">98%</span>
+            <span>Uptime</span>
+          </div>
+          <div className="w-px bg-slate-800 h-12"></div>
+          <div className="flex flex-col items-center">
+            <span className="font-bold text-secondary text-lg">Active</span>
+            <span>AI Engine</span>
+          </div>
         </div>
       </motion.div>
     </div>
