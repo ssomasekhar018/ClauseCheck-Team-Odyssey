@@ -1,7 +1,0 @@
-fastapi
-pydantic
-uvicorn[standard]
-requests
-pdfplumber
-spacy
-python-multipart

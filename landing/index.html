@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClauseCheck | AI-Powered Legal Intelligence</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Animations -->
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+    <style>
+        :root {
+            --bg-main: #030712;
+            --bg-card: rgba(17, 24, 39, 0.7);
+            --primary: #7c3aed;
+            --primary-glow: rgba(124, 58, 237, 0.5);
+            --secondary: #3b82f6;
+            --secondary-glow: rgba(59, 130, 246, 0.5);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Background */
+        .background-animate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 15% 50%, rgba(124, 58, 237, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.15), transparent 25%);
+            animation: pulse-bg 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-bg {
+            0% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                radial-gradient(white 1px, transparent 1px),
+                radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            opacity: 0.03;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(3, 7, 18, 0.7);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item i {
+            font-size: 1rem;
+        }
+
+        /* AI Status Badge */
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            }
+
+            70% {
+                opacity: 0.7;
+                box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 1rem 4rem;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 2rem;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, white, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 900px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            padding-bottom: 0.15em;
+            line-height: 1.2;
+        }
+
+        .typing-container {
+            height: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.2);
+        }
+
+        .card-icon-wrapper {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card:hover .card-icon-wrapper {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+        }
+
+        .card-icon {
+            color: var(--text-main);
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 1rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            text-align: left;
+        }
+
+        .feature-item h4 {
+            color: white;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 4rem;
+        }
+
+        /* Demo Mode Modal */
+        .demo-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .demo-content {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--primary);
+            text-align: center;
+            max-width: 400px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Elements -->
+    <div class="background-animate"></div>
+    <div class="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i data-lucide="scale"></i> ClauseCheck
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item active"><i data-lucide="home"></i> Home</a>
+            <a href="http://localhost:5175" class="nav-item"><i data-lucide="file-text"></i> AI Analysis</a>
+            <a href="http://localhost:5174" class="nav-item"><i data-lucide="gavel"></i> Courtroom</a>
+            <a href="http://localhost:3000" class="nav-item"><i data-lucide="library"></i> Case Files</a>
+        </div>
+        <div class="ai-status">
+            <div class="status-dot"></div>
+            AI Engine Active
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <i data-lucide="sparkles" size="16"></i> ClauseCheck
+        </div>
+        <h1 class="hero-title">
+            The Future of <br>
+            <span>Legal Intelligence</span>
+        </h1>
+        <div class="typing-container">
+            <span id="typed-text"></span>
+        </div>
+        <div class="cta-group">
+            <a href="#modules" class="btn btn-primary">
+                Start Analysis <i data-lucide="arrow-right"></i>
+            </a>
+            <button onclick="toggleDemo()" class="btn btn-secondary">
+                <i data-lucide="play-circle"></i> Watch Demo
+            </button>
+        </div>
+
+        <!-- Modules Grid -->
+        <div id="modules" class="modules-grid">
+
+            <!-- AI Analysis Card -->
+            <a href="http://localhost:5175" class="card">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="brain-circuit" class="card-icon"></i>
+                </div>
+                <h3 class="card-title">AI Contract Analysis</h3>
+                <p class="card-desc">Instantly detect risks, liability clauses, and compliance issues with advanced NLP
+                    models.</p>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-value">98%</span>
+                        <span class="stat-label">Accuracy</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">12s</span>
+                        <span class="stat-label">Avg. Time</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">Active</span>
+                        <span class="stat-label">Status</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Courtroom Card -->
+            <a href="http://localhost:5174" class="card">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="gavel" class="card-icon"></i>
+                </div>
+                <h3 class="card-title">Courtroom Simulation</h3>
+                <p class="card-desc">Practice arguments against an AI opposing counsel in a realistic virtual court
+                    environment.</p>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-value">Real-time</span>
+                        <span class="stat-label">Response</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">GPT-4</span>
+                        <span class="stat-label">Powered</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Case Library Card -->
+            <a href="http://localhost:3000" class="card">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="library" class="card-icon"></i>
+                </div>
+                <h3 class="card-title">Case File Library</h3>
+                <p class="card-desc">Access thousands of Indian court judgments with AI-generated summaries and
+                    citations.</p>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-value">10k+</span>
+                        <span class="stat-label">Cases</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">Smart</span>
+                        <span class="stat-label">Search</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why ClauseCheck?</h2>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h4><i data-lucide="zap" class="text-primary"></i> Lightning Fast</h4>
+                <p>Process complex legal documents in seconds, not hours.</p>
+            </div>
+            <div class="feature-item">
+                <h4><i data-lucide="shield-check" class="text-success"></i> Risk Detection</h4>
+                <p>Identify hidden liabilities and non-compliant clauses automatically.</p>
+            </div>
+            <div class="feature-item">
+                <h4><i data-lucide="search" class="text-secondary"></i> Smart Citations</h4>
+                <p>Find relevant case laws and precedents instantly.</p>
+            </div>
+            <div class="feature-item">
+                <h4><i data-lucide="users" class="text-accent"></i> Interactive</h4>
+                <p>Engage with AI in real-time for case preparation.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 ClauseCheck. All rights reserved. Powered by Advanced Legal AI.</p>
+    </footer>
+
+    <!-- Demo Overlay -->
+    <div id="demoOverlay" class="demo-overlay" onclick="toggleDemo()">
+        <div class="demo-content">
+            <h3><i data-lucide="info"></i> Demo Mode</h3>
+            <p style="margin: 1rem 0; color: var(--text-muted);">
+                Click on "AI Contract Analysis" to see the live risk detection in action. The system will auto-load a
+                sample contract.
+            </p>
+            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="gotItDemo()">Got
+                it</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Typing Animation
+        new Typed('#typed-text', {
+            strings: [
+                '> Detecting Risk Clauses...',
+                '> Analyzing Legal Liability...',
+                '> Generating Case Summaries...',
+                '> Preparing Defense Strategy...'
+            ],
+            typeSpeed: 40,
+            backSpeed: 20,
+            backDelay: 2000,
+            loop: true,
+            cursorChar: '▋'
+        });
+
+        // Demo Toggle
+        function toggleDemo() {
+            const overlay = document.getElementById('demoOverlay');
+            if (overlay.style.display === 'flex') {
+                overlay.style.display = 'none';
+            } else {
+                overlay.style.display = 'flex';
+            }
+        }
+
+        // Got It — closes modal and navigates to AI Contract Analysis
+        function gotItDemo() {
+            const overlay = document.getElementById('demoOverlay');
+            overlay.style.display = 'none';
+            window.location.href = 'http://localhost:5175';
+        }
+    </script>
+</body>
+
+</html>
