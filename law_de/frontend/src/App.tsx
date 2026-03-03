@@ -5,6 +5,7 @@ import CaseReview from './components/CaseReview';
 import SimulationRoom from './components/SimulationRoom';
 import Results from './components/Results';
 import { CaseData, api } from './services/api';
+import './navbar.css';
 
 type AppState = 'form' | 'review' | 'simulation' | 'ending' | 'results';
 
@@ -29,7 +30,6 @@ function App() {
       handleCaseCreated(response.session_id);
     } catch (error) {
       console.error('Failed to create case:', error);
-      // You might want to show an error message here
     }
   };
 
@@ -50,124 +50,44 @@ function App() {
 
   return (
     <ThemeProvider>
-      {/* Animated background matching home page */}
+      {/* Animated background — same as home page */}
       <div className="background-animate" />
       <div className="particles" />
 
-      {/* Fixed Navbar matching landing page style exactly */}
-      <nav style={{
-        position: 'fixed',
-        top: 0,
-        width: '100%',
-        padding: '1rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        background: 'rgba(3, 7, 18, 0.7)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-        zIndex: 100,
-        boxSizing: 'border-box',
-      }}>
-        {/* Logo */}
-        <div style={{
-          fontFamily: "'Space Grotesk', sans-serif",
-          fontWeight: 700,
-          fontSize: '1.5rem',
-          background: 'linear-gradient(to right, #fff, #94a3b8)',
-          WebkitBackgroundClip: 'text',
-          backgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-        }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ color: '#7c3aed', flexShrink: 0 }}>
-            <path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <span>ClauseCheck</span>
+      {/* Navbar — exact same structure & classes as landing/index.html */}
+      <nav className="cc-navbar">
+        <a href="http://localhost:8080" className="cc-logo">
+          <i className="bx bxs-layer" />
+          ClauseCheck
+        </a>
+
+        <div className="cc-nav-links">
+          <a href="http://localhost:8080" className="cc-nav-item">
+            <i className="bx bx-home" />
+            Home
+          </a>
+          <a href="http://localhost:5175" className="cc-nav-item">
+            <i className="bx bxs-analyse" />
+            AI Analysis
+          </a>
+          <a href="http://localhost:5174" className="cc-nav-item active">
+            <i className="bx bx-gavel" />
+            Courtroom
+          </a>
+          <a href="http://localhost:3000" className="cc-nav-item">
+            <i className="bx bx-library" />
+            Case Files
+          </a>
         </div>
 
-        {/* Nav Links */}
-        <div style={{ display: 'flex', gap: '2rem' }}>
-          {([
-            { href: 'http://localhost:8080', label: 'Home', active: false },
-            { href: 'http://localhost:5175', label: 'AI Analysis', active: false },
-            { href: 'http://localhost:5174', label: 'Courtroom', active: true },
-            { href: 'http://localhost:3000', label: 'Case Files', active: false },
-          ] as { href: string; label: string; active: boolean }[]).map(({ href, label, active }) => (
-            <a
-              key={href}
-              href={href}
-              style={{
-                color: active ? 'white' : '#94a3b8',
-                textDecoration: 'none',
-                fontSize: '0.95rem',
-                fontWeight: 500,
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.5rem 1rem',
-                borderRadius: '0.5rem',
-                background: active ? 'rgba(124, 58, 237, 0.12)' : 'transparent',
-                border: active ? '1px solid rgba(124, 58, 237, 0.25)' : '1px solid transparent',
-              }}
-              onMouseEnter={e => {
-                if (!active) {
-                  (e.currentTarget as HTMLElement).style.color = 'white';
-                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.05)';
-                }
-              }}
-              onMouseLeave={e => {
-                if (!active) {
-                  (e.currentTarget as HTMLElement).style.color = '#94a3b8';
-                  (e.currentTarget as HTMLElement).style.background = 'transparent';
-                }
-              }}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-
-        {/* AI Status Badge */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          padding: '0.4rem 0.8rem',
-          background: 'rgba(34, 197, 94, 0.1)',
-          border: '1px solid rgba(34, 197, 94, 0.2)',
-          borderRadius: '2rem',
-          fontSize: '0.8rem',
-          color: '#22c55e',
-          fontWeight: 600,
-          whiteSpace: 'nowrap',
-        }}>
-          <div style={{
-            width: 8,
-            height: 8,
-            background: '#22c55e',
-            borderRadius: '50%',
-            animation: 'navBlink 1.5s infinite',
-            flexShrink: 0,
-          }} />
+        <div className="cc-ai-badge">
+          <div className="cc-ai-dot" />
           AI Engine Active
         </div>
       </nav>
 
-      <style>{`
-        @keyframes navBlink {
-          0%   { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
-          70%  { opacity: 0.7; box-shadow: 0 0 0 6px rgba(34,197,94,0); }
-          100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0); }
-        }
-      `}</style>
-
-      {/* Navbar spacer */}
-      <div style={{ height: '4.5rem' }} />
+      {/* Spacer below fixed navbar */}
+      <div className="cc-navbar-spacer" />
 
       {state === 'form' && (
         <CaseForm
@@ -197,14 +117,21 @@ function App() {
 
 function EndSplash({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 1000); // show for ~1s
+    const t = setTimeout(onDone, 1000);
     return () => clearTimeout(t);
   }, [onDone]);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
-      <div className="rounded-full overflow-hidden" style={{ width: 'min(90vw, 90vh)', height: 'min(90vh, 90vw)' }}>
-        {/* eslint-disable-next-line react/no-unknown-property */}
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 50,
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      background: 'black'
+    }}>
+      <div style={{
+        borderRadius: '50%', overflow: 'hidden',
+        width: 'min(90vw, 90vh)', height: 'min(90vh, 90vw)'
+      }}>
         {/* @ts-ignore */}
         <dotlottie-player
           src="/justice-hummer-black.lottie"
@@ -213,7 +140,10 @@ function EndSplash({ onDone }: { onDone: () => void }) {
           autoplay
         ></dotlottie-player>
       </div>
-      <div className="mt-6 text-white text-5xl sm:text-6xl font-extrabold tracking-wide drop-shadow-lg">
+      <div style={{
+        marginTop: '1.5rem', color: 'white',
+        fontSize: '3.5rem', fontWeight: 800, letterSpacing: '0.05em'
+      }}>
         Verdict
       </div>
     </div>
