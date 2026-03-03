@@ -1,4 +1,6 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
+import type { FormEvent } from 'react';
+
 import { motion } from 'framer-motion';
 import { Upload, FileText, AlertTriangle, CheckCircle, BrainCircuit, Activity, BarChart2 } from 'lucide-react';
 import { Navbar } from './components/Navbar';
