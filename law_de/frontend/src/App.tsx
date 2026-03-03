@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import CaseForm from './components/CaseForm';
 import CaseReview from './components/CaseReview';
@@ -50,27 +50,128 @@ function App() {
 
   return (
     <ThemeProvider>
-      {/* Global navbar to move between all projects */}
-      <header className="w-full flex items-center justify-between px-4 py-2 bg-slate-900 text-slate-50 shadow">
-        <span className="font-semibold tracking-wide">Legal Tech Suite</span>
-        <nav className="flex gap-4 text-sm">
-          <a href="http://localhost:8080" className="hover:underline">
-            Home
-          </a>
-          <a href="http://localhost:5175" className="hover:underline">
-            AI Contract Analysis
-          </a>
-          <a href="http://localhost:5174" className="hover:underline font-semibold">
-            Courtroom Simulation
-          </a>
-          <a href="http://localhost:3000" className="hover:underline">
-            Case File Library
-          </a>
-        </nav>
-      </header>
+      {/* Animated background matching home page */}
+      <div className="background-animate" />
+      <div className="particles" />
+
+      {/* Fixed Navbar matching landing page style exactly */}
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        padding: '1rem 2rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        background: 'rgba(3, 7, 18, 0.7)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+        zIndex: 100,
+        boxSizing: 'border-box',
+      }}>
+        {/* Logo */}
+        <div style={{
+          fontFamily: "'Space Grotesk', sans-serif",
+          fontWeight: 700,
+          fontSize: '1.5rem',
+          background: 'linear-gradient(to right, #fff, #94a3b8)',
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+        }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ color: '#7c3aed', flexShrink: 0 }}>
+            <path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span>ClauseCheck</span>
+        </div>
+
+        {/* Nav Links */}
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          {([
+            { href: 'http://localhost:8080', label: 'Home', active: false },
+            { href: 'http://localhost:5175', label: 'AI Analysis', active: false },
+            { href: 'http://localhost:5174', label: 'Courtroom', active: true },
+            { href: 'http://localhost:3000', label: 'Case Files', active: false },
+          ] as { href: string; label: string; active: boolean }[]).map(({ href, label, active }) => (
+            <a
+              key={href}
+              href={href}
+              style={{
+                color: active ? 'white' : '#94a3b8',
+                textDecoration: 'none',
+                fontSize: '0.95rem',
+                fontWeight: 500,
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.5rem',
+                background: active ? 'rgba(124, 58, 237, 0.12)' : 'transparent',
+                border: active ? '1px solid rgba(124, 58, 237, 0.25)' : '1px solid transparent',
+              }}
+              onMouseEnter={e => {
+                if (!active) {
+                  (e.currentTarget as HTMLElement).style.color = 'white';
+                  (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.05)';
+                }
+              }}
+              onMouseLeave={e => {
+                if (!active) {
+                  (e.currentTarget as HTMLElement).style.color = '#94a3b8';
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                }
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+
+        {/* AI Status Badge */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          padding: '0.4rem 0.8rem',
+          background: 'rgba(34, 197, 94, 0.1)',
+          border: '1px solid rgba(34, 197, 94, 0.2)',
+          borderRadius: '2rem',
+          fontSize: '0.8rem',
+          color: '#22c55e',
+          fontWeight: 600,
+          whiteSpace: 'nowrap',
+        }}>
+          <div style={{
+            width: 8,
+            height: 8,
+            background: '#22c55e',
+            borderRadius: '50%',
+            animation: 'navBlink 1.5s infinite',
+            flexShrink: 0,
+          }} />
+          AI Engine Active
+        </div>
+      </nav>
+
+      <style>{`
+        @keyframes navBlink {
+          0%   { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+          70%  { opacity: 0.7; box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+          100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+        }
+      `}</style>
+
+      {/* Navbar spacer */}
+      <div style={{ height: '4.5rem' }} />
+
       {state === 'form' && (
-        <CaseForm 
-          onCaseCreated={handleCaseCreated} 
+        <CaseForm
+          onCaseCreated={handleCaseCreated}
           onExtractedData={handleExtractedData}
         />
       )}
@@ -104,6 +205,7 @@ function EndSplash({ onDone }: { onDone: () => void }) {
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black">
       <div className="rounded-full overflow-hidden" style={{ width: 'min(90vw, 90vh)', height: 'min(90vh, 90vw)' }}>
         {/* eslint-disable-next-line react/no-unknown-property */}
+        {/* @ts-ignore */}
         <dotlottie-player
           src="/justice-hummer-black.lottie"
           background="transparent"
